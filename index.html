@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gigravle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cbc;
+            --accent-color: #ff7e5f;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --background: #f7fafc;
+            --white: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--background);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 语言切换 */
+        .language-switcher {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem 0;
+        }
+
+        .lang-btn {
+            background: var(--white);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .lang-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-logo i {
+            margin-right: 0.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* 主要内容区 */
+        .main-content {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* 语言介绍 */
+        .language-intro {
+            flex: 3;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .page-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .intro-content {
+            line-height: 1.8;
+        }
+
+        .intro-content p {
+            margin-bottom: 1rem;
+        }
+
+        /* 目录 */
+        .directory {
+            flex: 2;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .directory h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .chapter-list {
+            list-style: none;
+        }
+
+        .chapter-item {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: background 0.3s ease;
+        }
+
+        .chapter-item:hover {
+            background: #edf2f7;
+        }
+
+        .chapter-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chapter-number {
+            background: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Q&A 入口 */
+        .qa-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .qa-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .qa-button:hover {
+            background: #e86a4a;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--text-light);
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 语言切换 -->
+    <div class="container">
+        <div class="language-switcher">
+            <button class="lang-btn active" data-lang="zh">中文</button>
+            <button class="lang-btn" data-lang="en">English</button>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-globe-americas"></i>
+                    <span data-key="site-title">Gigravle</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link active" data-key="nav-home">首页</a>
+                    <a href="courses.html" class="nav-link" data-key="nav-courses">课程</a>
+                    <a href="dictionary.html" class="nav-link" data-key="nav-dictionary">词汇</a>
+                    <a href="qa.html" class="nav-link" data-key="nav-qa">留言</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 语言介绍 -->
+            <section class="language-intro">
+                <h1 class="page-title" data-key="page-title">Gigravle的故事</h1>
+                <div class="intro-content">
+                    <p data-key="intro-1">这门语言始于2024年 是我创造的一种全新语言</p>
+                    
+                    <p data-key="intro-2">它的灵感来源于多种已存在的人造语言 拥有独特的语法结构和词汇系统</p>
+                    
+                    <p data-key="intro-3">创造这门语言的初衷是为了拥有一个自己的语言 这也是我的梦想之一</p>
+                    
+                    <p data-key="intro-4">目前 这门语言已经拥有大约200个词汇 但这还只是一个开头 还要创造更多的词汇来表达更多概念</p>
+                </div>
+            </section>
+
+            <!-- 目录 -->
+            <aside class="directory">
+                <h2 data-key="directory-title">目录</h2>
+                <ul class="chapter-list">
+                    <li class="chapter-item">
+                        <a href="chapter1.html" class="chapter-link">
+                            <span data-key="chapter-1">字母与发音</span>
+                            <span class="chapter-number">1</span>
+                        </a>
+                    </li>
+                    <li class="chapter-item">
+                        <a href="chapter2.html" class="chapter-link">
+                            <span data-key="chapter-2">词汇规则</span>
+                            <span class="chapter-number">2</span>
+                        </a>
+                    </li>
+                    <li class="chapter-item">
+                        <a href="chapter3.html" class="chapter-link">
+                            <span data-key="chapter-3">日常问候</span>
+                            <span class="chapter-number">3</span>
+                        </a>
+                    </li>
+                    <li class="chapter-item">
+                        <a href="chapter4.html" class="chapter-link">
+                            <span data-key="chapter-4">名词与变格</span>
+                            <span class="chapter-number">4</span>
+                        </a>
+                    </li>
+                    <li class="chapter-item">
+                        <a href="chapter5.html" class="chapter-link">
+                            <span data-key="chapter-5">动词与时态</span>
+                            <span class="chapter-number">5</span>
+                        </a>
+                    </li>
+                    <li class="chapter-item">
+                        <a href="chapter6.html" class="chapter-link">
+                            <span data-key="chapter-6">形容词与副词</span>
+                            <span class="chapter-number">6</span>
+                        </a>
+                    </li>
+                    <li class="chapter-item">
+                        <a href="chapter7.html" class="chapter-link">
+                            <span data-key="chapter-7">基本句型</span>
+                            <span class="chapter-number">7</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <!-- Q&A 入口 -->
+        <section class="qa-section">
+            <h2 data-key="qa-title">有问题或建议？</h2>
+            <p data-key="qa-desc">欢迎提出你的问题、想法或改进建议，所有内容公开可见。</p>
+            <a href="qa.html">
+                <button class="qa-button" data-key="qa-button">前往留言板</button>
+            </a>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p data-key="footer-text">Gigravle - est. 2024</p>
+        </div>
+    </footer>
+
+    <script>
+        // 多语言文本配置
+        const translations = {
+            zh: {
+                "site-title": "Gigravle",
+                "nav-home": "首页",
+                "nav-courses": "课程",
+                "nav-dictionary": "词汇",
+                "nav-qa": "留言",
+                "page-title": "Gigravle的故事",
+                "intro-1": "这门语言始于2024年 是我创造的一种全新语言",
+                "intro-2": "它的灵感来源于多种已存在的人造语言 拥有独特的语法结构和词汇系统",
+                "intro-3": "创造这门语言的初衷是为了拥有一个自己的语言 这也是我的梦想之一",
+                "intro-4": "目前 这门语言已经拥有大约200个词汇 但这还只是一个开头 还要创造更多的词汇来表达更多概念",
+                "directory-title": "目录",
+                "chapter-1": "字母与发音",
+                "chapter-2": "词汇规则",
+                "chapter-3": "日常问候",
+                "chapter-4": "名词与变格",
+                "chapter-5": "动词与时态",
+                "chapter-6": "形容词与副词",
+                "chapter-7": "基本句型",
+                "qa-title": "有问题或建议？",
+                "qa-desc": "欢迎提出你的问题、想法或改进建议，所有内容公开可见。",
+                "qa-button": "前往留言板",
+                "footer-text": "Gigravle - est. 2024"
+            },
+            en: {
+                "site-title": "Gigravle",
+                "nav-home": "Home",
+                "nav-courses": "Courses",
+                "nav-dictionary": "Dictionary",
+                "nav-qa": "Q&A",
+                "page-title": "The Story of Gigravle",
+                "intro-1": "This language began in 2024 as a personal project to create a completely new language.",
+                "intro-2": "It is inspired by multiple pre-existing constructed languages and it has a unique grammar and word system.",
+                "intro-3": "The original motivation for this project is for me to have my secret language, and that is one of my dreams.",
+                "intro-4": "Currently, this language has about 200 basic vocabulary words, but that is just the start! Word coining job are still going on to express more concepts.",
+                "directory-title": "Lesson Directory",
+                "chapter-1": "Alphabet & Pronunciation",
+                "chapter-2": "Word Rules",
+                "chapter-3": "Daily Greetings",
+                "chapter-4": "Nouns & Case System",
+                "chapter-5": "Verbs & Tenses",
+                "chapter-6": "Adjectives & Adverbs",
+                "chapter-7": "Basic Sentence Patterns",
+                "qa-title": "Questions or Suggestions?",
+                "qa-desc": "Feel free to ask questions, share ideas, or provide suggestions. All content is publicly visible.",
+                "qa-button": "Go to Q&A",
+                "footer-text": "Gigravle - est. 2024"
+            }
+        };
+
+        // 语言切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            let currentLang = 'zh';
+            
+            // 更新页面文本
+            function updatePageText(lang) {
+                const elements = document.querySelectorAll('[data-key]');
+                elements.forEach(element => {
+                    const key = element.getAttribute('data-key');
+                    if (translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+            }
+            
+            // 语言按钮点击事件
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // 更新按钮状态
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 更新页面文本
+                    updatePageText(lang);
+                    currentLang = lang;
+                });
+            });
+            
+            // 初始加载中文
+            updatePageText(currentLang);
+        });
+    </script>
+</body>
+</html>
